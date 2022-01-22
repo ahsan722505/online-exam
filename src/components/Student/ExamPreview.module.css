@@ -1,0 +1,9 @@
+.exam{
+    border: 2px solid var(--color1);
+    padding: 1rem;
+    border-radius: .7rem;
+}
+.heading{
+    text-align: center;
+    color: var(--color2);
+}

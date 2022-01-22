@@ -1,23 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Landing from './components/Landing/Landing';
+import StudentMain from "./components/Student/StudentMain";
+import Exam from "./components/Student/Exam/Exam";
+import TeacherMain from './components/Teacher/TeacherMain';
+import CreateExam from './components/Teacher/CreateExam';
+import ViewResults from './components/Teacher/ViewResults';
+import PageNotFound from './components/PageNotFound';
+import { Route, Routes} from 'react-router-dom';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<Landing/>}/>
+        <Route path="/student" element={<StudentMain/>}/>
+        <Route path="/student/:examId" element={<Exam/>}/>
+        <Route path="/teacher" element={<TeacherMain/>}/>
+        <Route path="/teacher/createExam" element={<CreateExam/>}/>
+        <Route path="/teacher/viewResults" element={<ViewResults/>}/>
+        <Route path="*" element={<PageNotFound/>}/>
+      </Routes>
     </div>
   );
 }

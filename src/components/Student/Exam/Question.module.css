@@ -1,0 +1,9 @@
+.question{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 3rem;
+    margin-top: 3rem;
+}

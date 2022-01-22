@@ -1,0 +1,23 @@
+.info{
+    margin-top: 1rem;
+}
+.info1 div{
+    background-color: var(--color2);
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.info2 div{
+    background-color: var(--color3);
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.info1,.info2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.info1{
+    margin-bottom: .5rem;
+}

@@ -1,0 +1,16 @@
+.cell{
+    width: 30px;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    margin-right: .4rem;
+    margin-bottom: .4rem;
+    background-color: rgb(218, 218, 129);
+    cursor: pointer;
+}
+.qStat{
+    padding-top: .4rem;
+    padding-left: .4rem;
+    border: 1px solid var(--color3);
+}
