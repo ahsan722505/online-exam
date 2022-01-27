@@ -1,0 +1,21 @@
+.classCont{
+    position: absolute;
+    background-color: white;
+    width: 85%;
+    left: 50%; 
+    transform: translateX(-50%);
+    color : var(--color2);
+    font-weight: bold;
+    max-height: 8rem;
+    overflow-y: auto;
+}
+.eachClass{
+    text-align: center;
+    margin-bottom: .2rem;
+    cursor: pointer;
+    padding: .2rem 0;
+
+}
+.eachClass:hover{
+    background-color: wheat;
+}

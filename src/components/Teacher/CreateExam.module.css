@@ -1,0 +1,25 @@
+.createCont{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.formControl{
+    margin: .5rem 0;
+    padding: 1rem 1rem;
+    border-radius: .8rem;
+    background-color: var(--color3);
+}
+.formControl:nth-child(1) label,.formControl:nth-child(2) label,.formControl:nth-child(3) label{
+    display: block;
+    margin-bottom: .5rem;
+}
+.formControl:nth-child(1) input,.formControl:nth-child(2) input,.formControl:nth-child(3) input{
+    padding: .3rem .5rem;
+    width: 90%;
+}
+.formControl:nth-child(3){
+    position: relative;
+}

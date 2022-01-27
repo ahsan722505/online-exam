@@ -21,3 +21,4 @@ export const exams=[
         teacher : "Farsia"
     },
 ];
+export const classes=["cs-mor","se-aft","se-mor","cs-aft","bsit","bsait","bsph"]
