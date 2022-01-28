@@ -1,18 +1,14 @@
 import styles from "./Classes.module.css"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 const Classes=({classes,currentInput,onClassSelect})=>{
-    const [classState,setClass]=useState(classes);
-    useEffect(()=>{
-        if(currentInput === ""){
-            setClass(classes);
-        }else{
-            let newState=classes.filter(each=>{
-                return each.toLowerCase().startsWith(currentInput.toLowerCase());
-            })
-            setClass(newState);
-        }
-        
+    const getClasses=useCallback(()=>{
+        if(currentInput === "") return classes;
+        return classes.filter(each=>each.toLowerCase().startsWith(currentInput.toLowerCase()))
     },[currentInput,classes]);
+    const [classState,setClass]=useState(getClasses());
+    useEffect(()=>{
+        setClass(getClasses());
+    },[getClasses]);
     return (
         <div className={styles.classCont}>
             {classState.map(eachClass=> <div className={styles.eachClass} onClick={()=> onClassSelect(eachClass)} >{eachClass}</div>)}
