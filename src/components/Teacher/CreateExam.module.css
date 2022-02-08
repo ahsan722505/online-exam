@@ -1,6 +1,6 @@
 .createCont{
-    width: 100vw;
-    height: 100vh;
+    /* width: 100vw;
+    height: 100vh; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,4 +22,16 @@
 }
 .formControl:nth-child(3){
     position: relative;
+}
+.mainCont{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+.bracket{
+    font-size: 8rem;
+    border: 2px solid red;
 }
