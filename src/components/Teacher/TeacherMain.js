@@ -1,11 +1,8 @@
 import Button from "../../UI/Button";
 import styles from "./TeacherMain.module.css";
 import { Fragment, useState } from "react";
-import CreateExam from "./CreateExam";
-import ViewResults from "./ViewResults";
 import { useNavigate } from "react-router";
 const TeacherMain=()=>{
-
     const navigate=useNavigate();
     return(
         <Fragment>

@@ -1,0 +1,18 @@
+.qCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* border: 2px solid red; */
+}
+.qCont *{
+    margin-bottom: .5rem;
+}
+.option{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.option *{
+    margin-right: .4rem;
+}

@@ -3,7 +3,7 @@ import Landing from './components/Landing/Landing';
 import StudentMain from "./components/Student/StudentMain";
 import Exam from "./components/Student/Exam/Exam";
 import TeacherMain from './components/Teacher/TeacherMain';
-import CreateExam from './components/Teacher/CreateExam';
+import CreateExam from './components/Teacher/CreateExam/CreateExam';
 import ViewResults from './components/Teacher/ViewResults';
 import PageNotFound from './components/PageNotFound';
 import { Route, Routes} from 'react-router-dom';
