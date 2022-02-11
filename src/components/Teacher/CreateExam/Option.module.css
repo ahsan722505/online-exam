@@ -1,0 +1,8 @@
+.option{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.option *{
+    margin-right: .4rem;
+}

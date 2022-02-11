@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    
 }
 .mainCont{
     width: 100vw;
@@ -11,5 +12,12 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-
+}
+.stateCont{
+    /* display: flex;
+    justify-content: flex-end;
+    align-items: center; */
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
 }
