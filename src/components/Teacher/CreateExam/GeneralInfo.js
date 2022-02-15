@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import Classes from "./Classes";
 import styles from "./GeneralInfo.module.css"
-import { classes } from "../../../Helpers/util";
+// import { classes } from "../../../Helpers/util";
 import { useState,useEffect } from 'react';
-const GeneralInfo = ({createExamState,dispatchCreateExam}) => {
+const GeneralInfo = ({createExamState,dispatchCreateExam,classes}) => {
     const {examName,subjectName,class_Name}=createExamState;
     const [showClasses,setShowClasses]=useState(false);
 

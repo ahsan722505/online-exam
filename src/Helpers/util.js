@@ -22,3 +22,11 @@ export const exams=[
     },
 ];
 export const classes=["cs-mor","se-aft","se-mor","cs-aft","bsit","bsait","bsph"]
+export const createExamInitialState={
+    examName : "",
+    subjectName : "",
+    class_Name : "",
+    questions : [{questionStatement : "", options : [{statement : ""}]}],
+    currentQuestion : 0
+
+}

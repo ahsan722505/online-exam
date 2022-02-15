@@ -6,7 +6,9 @@ import TeacherMain from './components/Teacher/TeacherMain';
 import CreateExam from './components/Teacher/CreateExam/CreateExam';
 import ViewResults from './components/Teacher/ViewResults';
 import PageNotFound from './components/PageNotFound';
+import Login from './components/Landing/Login';
 import { Route, Routes} from 'react-router-dom';
+
 function App() {
   return (
     <div className="App">
@@ -17,6 +19,7 @@ function App() {
         <Route path="/teacher" element={<TeacherMain/>}/>
         <Route path="/teacher/createExam" element={<CreateExam/>}/>
         <Route path="/teacher/viewResults" element={<ViewResults/>}/>
+        <Route path="/login" element={<Login/>}/>
         <Route path="*" element={<PageNotFound/>}/>
       </Routes>
     </div>
