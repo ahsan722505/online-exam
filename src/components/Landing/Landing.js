@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { firstActions } from "../../store/first-slice";
+import { uiActions } from "../../store/ui-slice";
 import { useSelector,useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 const Landing=()=>{
-    const initialLoading=useSelector(state=>state.first.initialLoading);
+    const initialLoading=useSelector(state=>state.ui.initialLoading);
   const dispatch=useDispatch();
   const navigate=useNavigate();
   useEffect(()=>{
@@ -19,7 +19,7 @@ const Landing=()=>{
         }
       `
     };
-    fetch("http://localhost:8080/graphql",{
+    fetch(process.env.REACT_APP_SERVER,{
       method : "POST",
       headers : {
         Authorization: 'Bearer ' + localStorage.getItem("token"),
@@ -30,7 +30,7 @@ const Landing=()=>{
       if(!resData.errors){
         navigate(`/${resData.data.initialRequest.role}`);
       }
-       dispatch(firstActions.toggleInitialLoading())
+       dispatch(uiActions.toggleInitialLoading())
       }).catch(err=>console.log(err));
   },[]);
  return(

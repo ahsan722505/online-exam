@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { firstActions } from '../../store/first-slice';
+import { firstActions } from '../../store/ui-slice';
 import { useNavigate } from 'react-router';
 const Login = () => {
     // alert("yes")
@@ -27,7 +27,7 @@ const Login = () => {
                 password : passRef.current.value
             }
           };
-          fetch("http://localhost:8080/graphql",{
+          fetch(process.env.REACT_APP_SERVER,{
             method : "POST",
             headers : {
               'Content-Type': 'application/json'

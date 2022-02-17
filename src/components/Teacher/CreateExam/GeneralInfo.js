@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react'
 import Classes from "./Classes";
 import styles from "./GeneralInfo.module.css"
+import { useRef } from 'react';
 // import { classes } from "../../../Helpers/util";
 import { useState,useEffect } from 'react';
 const GeneralInfo = ({createExamState,dispatchCreateExam,classes}) => {
+    const inputRef=useRef();
     const {examName,subjectName,class_Name}=createExamState;
     const [showClasses,setShowClasses]=useState(false);
 
@@ -37,8 +39,8 @@ const GeneralInfo = ({createExamState,dispatchCreateExam,classes}) => {
                     </div>
                     <div className={styles.formControl}>
                             <label>Select class</label>
-                            <input type="text" value={class_Name} id="unique" onChange={(e)=> dispatchCreateExam({type : "class_Name" , payload : e.target.value })}/>
-                            { showClasses && <Classes onClassSelect={classSelectHandler} currentInput={class_Name} classes={classes}/>}
+                            <input ref={inputRef} type="text" value={class_Name} id="unique" onChange={(e)=> dispatchCreateExam({type : "class_Name" , payload : e.target.value })}/>
+                            { showClasses && <Classes width={inputRef.current.offsetWidth} onClassSelect={classSelectHandler} currentInput={class_Name} classes={classes.map(each=>each.name)}/>}
                     </div>
     </>
   )

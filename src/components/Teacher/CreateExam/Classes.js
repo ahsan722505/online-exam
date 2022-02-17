@@ -1,6 +1,6 @@
 import styles from "./Classes.module.css"
 import { useCallback, useEffect, useState } from "react";
-const Classes=({classes,currentInput,onClassSelect})=>{
+const Classes=({width,classes,currentInput,onClassSelect})=>{
     const getClasses=useCallback(()=>{
         if(currentInput === "") return classes;
         return classes.filter(each=>each.toLowerCase().startsWith(currentInput.toLowerCase()))
@@ -10,7 +10,7 @@ const Classes=({classes,currentInput,onClassSelect})=>{
         setClass(getClasses());
     },[getClasses]);
     return (
-        <div className={styles.classCont}>
+        <div style={{width : width}} className={styles.classCont}>
             {classState.map(eachClass=> <div className={styles.eachClass} onClick={()=> onClassSelect(eachClass)} >{eachClass}</div>)}
         </div>
     )

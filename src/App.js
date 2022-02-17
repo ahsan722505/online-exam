@@ -8,6 +8,7 @@ import ViewResults from './components/Teacher/ViewResults';
 import PageNotFound from './components/PageNotFound';
 import Login from './components/Landing/Login';
 import { Route, Routes} from 'react-router-dom';
+import CustomModal from "./UI/CustomModal";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="*" element={<PageNotFound/>}/>
       </Routes>
+      <CustomModal/>
     </div>
   );
 }

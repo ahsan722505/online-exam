@@ -1,9 +1,9 @@
 .classCont{
     position: absolute;
     background-color: white;
-    width: 85%;
-    left: 50%; 
-    transform: translateX(-50%);
+    /* width: 85%; */
+    /* left: 50%; 
+    transform: translateX(-50%); */
     color : var(--color2);
     font-weight: bold;
     max-height: 8rem;

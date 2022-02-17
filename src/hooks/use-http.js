@@ -2,9 +2,10 @@ import React from 'react'
 import { useCallback } from 'react';
 import { useState } from 'react'
 const useHttp = () => {
-    const [isLoading,setLoading]=useState(true);
+    const [isLoading,setLoading]=useState(false);
     const sendRequest=useCallback(async(graphqlQuery,applyData)=>{
-        const res=await fetch("http://localhost:8080/graphql",{
+        setLoading(true);
+        const res=await fetch(process.env.REACT_APP_SERVER,{
             method : "POST",
             headers : {
                 'Content-Type': 'application/json',
