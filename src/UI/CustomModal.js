@@ -15,9 +15,9 @@ const CustomModal = () => {
         <Modal.Header  closeButton>
           {/* <Modal.Title>Modal heading</Modal.Title> */}
         </Modal.Header>
-        <Modal.Body>{content}</Modal.Body>
+        <Modal.Body style={{fontWeight : "bold"}}>{content}</Modal.Body>
         <Modal.Footer>
-          <Button style={{width : "3rem"}} onClick={handleClose}>
+          <Button style={{width : "5rem"}} onClick={handleClose}>
             ok
           </Button>
         </Modal.Footer>

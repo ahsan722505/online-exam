@@ -2,9 +2,9 @@ import styles from "./ExamPreview.module.css";
 const ExamPreview=({exam})=>{
     return(
         <div className={styles.exam}>
-                <h2 className={styles.heading}>{exam.name}</h2>
-                <p>Subject : {exam.subject}</p>
-                <p>Teacher : {exam.teacher}</p>
+                <h2 className={styles.heading}>{exam.examName}</h2>
+                <p>Subject : {exam.subjectName}</p>
+                <p>Teacher : {exam.teacherId.username}</p>
         </div>
     )
 }

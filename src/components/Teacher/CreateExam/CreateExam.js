@@ -11,6 +11,7 @@ import Button from "../../../UI/Button"
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../../store/ui-slice";
 import { useNavigate } from "react-router";
+import { isEmpty } from "../../../Helpers/util";
 const CreateExam=()=>{
   const createExamInitialState={
     examName : "",
@@ -27,6 +28,7 @@ const CreateExam=()=>{
     const navigate=useNavigate();
     useEffect(()=>{
         const dataHandler=(resData)=>{
+          console.log(resData);
             setClasses(resData.data.getClasses);
         }
         const graphqlQuery = {
@@ -47,6 +49,44 @@ const CreateExam=()=>{
         dispatchCreateExam({type : "currentQuestion",payload : value})
     }
     const submitHandler=()=>{
+      let err;
+      if(isEmpty(createExamState.examName)){
+         err="The exam name field is empty, make sure to fill it";
+        dispatch(uiActions.setModal({show : true, content : err}));
+        return;
+      }
+      if(isEmpty(createExamState.subjectName)){
+         err="The subject name field is empty, make sure to fill it";
+        dispatch(uiActions.setModal({show : true, content : err}));
+        return;
+      }
+      if(!classes.find(each=> each.name === createExamState.class_Name)){
+         err="Please select a class from available list of classes";
+        dispatch(uiActions.setModal({show : true, content : err}));
+        return;
+      }
+      let questions=createExamState.questions;
+      for(let i=0; i< questions.length ; i++){
+        if(isEmpty(questions[i].questionStatement)){
+          err=`The question statement of question no ${i+1} is missing.`;
+          dispatch(uiActions.setModal({show : true, content : err}));
+          return;
+        }
+        if(questions[i].options.length === 0){
+          err=`The question no ${i+1} should have atleast one option.`;
+          dispatch(uiActions.setModal({show : true, content : err}));
+          return;
+        }
+        for(let j=0 ; j < questions[i].options.length ; j++){
+          if(isEmpty(questions[i].options[j].statement)){
+            err=`The option no ${j+1} of question no ${i+1} is empty; either fill it or remove it.`;
+            dispatch(uiActions.setModal({show : true, content : err}));
+            return;
+          }
+        }
+      }
+
+
       let readyState={...createExamState};
       delete readyState.currentQuestion;
       delete readyState.class_Name;
