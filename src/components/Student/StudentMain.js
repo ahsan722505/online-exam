@@ -21,7 +21,7 @@ const StudentMain=()=>{
                   _id
                   subjectName
                   examName
-                  teacherId{
+                  teacher{
                       username
                   }
                 }

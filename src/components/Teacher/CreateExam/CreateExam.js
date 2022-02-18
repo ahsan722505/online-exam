@@ -91,7 +91,7 @@ const CreateExam=()=>{
       delete readyState.currentQuestion;
       delete readyState.class_Name;
       let {name,_id}=classes.find(each=> each.name === createExamState.class_Name);
-      readyState.classId=_id;
+      readyState.class=_id;
       const graphqlQuery = {
         query: `
           mutation createNewExam($examInputData : ExamInput) {
