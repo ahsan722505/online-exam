@@ -2,7 +2,7 @@ import React from 'react'
 import { useCallback } from 'react';
 import { useState } from 'react'
 const useHttp = () => {
-    const [isLoading,setLoading]=useState(false);
+    const [isLoading,setLoading]=useState(true);
     const sendRequest=useCallback(async(graphqlQuery,applyData)=>{
         try{
             setLoading(true);
