@@ -3,8 +3,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* border: 2px solid red; */
 }
 .qCont *{
     margin-bottom: .5rem;
+}
+.stateCont{
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
 }

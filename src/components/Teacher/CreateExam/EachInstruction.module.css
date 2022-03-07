@@ -1,0 +1,9 @@
+.instCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+}
+.instCont span{
+    font-size: 2rem;
+}

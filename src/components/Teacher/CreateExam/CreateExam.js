@@ -12,20 +12,22 @@ import { useDispatch } from "react-redux";
 import { uiActions } from "../../../store/ui-slice";
 import { useNavigate } from "react-router";
 import { isEmpty } from "../../../Helpers/util";
+import Time from "./Time";
+import Instruction from "./Instruction";
 const CreateExam=()=>{
   const createExamInitialState={
     examName : "",
     subjectName : "",
     class_Name : "",
     questions : [{questionStatement : "", options : [{statement : ""}]}],
+    instructions : [{instruction : ""}],
     currentQuestion : 0
-
 }
-    const [questionMode,setQuestionMode]=useState(false);
     const [classes,setClasses]=useState([]);
     const {isLoading,sendRequest}=useHttp();
     const dispatch=useDispatch();
     const navigate=useNavigate();
+    const [currentStep,setCurrentStep]=useState(1);
     useEffect(()=>{
         const dataHandler=(resData)=>{
           console.log(resData);
@@ -118,21 +120,18 @@ const CreateExam=()=>{
         <>
             { isLoading && <h2>Loading...</h2>}
         
-            { !isLoading && <>
-                { questionMode && <div className={styles.stateCont}>
-                <Stat questions={createExamState.questions.length} onChangeQuestion={changeQuestionHandler}/>
-                </div>}
-                
+            { !isLoading && <>                
                 <div className={styles.mainCont}>
-                        <NavigationArrow direction="left" disable={!questionMode} onClick={()=> setQuestionMode(false)}/>
+                        <NavigationArrow direction="left" disable={currentStep === 1} onClick={()=> setCurrentStep(state=> state - 1)}/>
 
                     <div  className={styles.createCont}>
-                        {!questionMode && <GeneralInfo createExamState={createExamState} dispatchCreateExam={dispatchCreateExam} classes={classes}/>}
-                        { questionMode && <Question dispatchCreateExam={dispatchCreateExam} question={createExamState.questions[createExamState.currentQuestion]} currentQuestion={createExamState.currentQuestion}/>}
-                        {questionMode && <Button onClick={submitHandler}>Create Exam</Button>}
+                        {currentStep === 1 && <GeneralInfo createExamState={createExamState} dispatchCreateExam={dispatchCreateExam} classes={classes}/>}
+                        { currentStep === 2 && <Question dispatchCreateExam={dispatchCreateExam} question={createExamState.questions[createExamState.currentQuestion]} currentQuestion={createExamState.currentQuestion} changeQuestionHandler={changeQuestionHandler} questionsLength={createExamState.questions.length}/>}
+                        {currentStep === 3 && <Time/>}
+                        {currentStep === 4 && <Instruction instructions={createExamState.instructions} submitHandler={submitHandler} dispatchCreateExam={dispatchCreateExam} />}
 
                     </div>
-                    <NavigationArrow direction="right" disable={questionMode} onClick={()=> setQuestionMode(true)}/>
+                    <NavigationArrow direction="right" disable={currentStep === 4} onClick={()=> setCurrentStep(state=>state+1)}/>
             </div>
         </>}
        </>

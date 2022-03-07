@@ -1,0 +1,37 @@
+:root{
+    --headerHeight : 5rem;
+}
+.insCont{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100vh - (var(--headerHeight) + 1rem));
+    /* border: 2px solid red; */
+}
+.header{
+    display: flex;
+    justify-content: centers;
+    align-items: center; 
+    width: 100vw;
+    height: var(--headerHeight);
+    font-size: clamp(1.3rem, 3vw , 2rem);
+    flex-direction: column;
+    margin-top: 1rem;
+}
+.header h2{
+    font-size: inherit;
+}
+.header h2:first-child{
+    margin-left: .4rem;
+}
+.header h2:last-child{
+    margin-right: .4rem;
+}
+.ins{
+    align-self: flex-start;
+    margin-left: 1rem;
+}
+.ins div{
+    font-size: clamp(1.3rem, 3vw, 1.5rem);
+}

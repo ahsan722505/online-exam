@@ -1,5 +1,5 @@
 export const createExamReducer=(state,action)=>{
-    let updatedQuestions;
+    let updatedQuestions,updatedInstructions;
     switch (action.type) {
         case "examName":
             return {...state,examName : action.payload}
@@ -37,6 +37,20 @@ export const createExamReducer=(state,action)=>{
             return {...state,questions : updatedQuestions,currentQuestion : updatedCurrentQuestion};
         case "currentQuestion":
             return {...state,currentQuestion : action.payload}
+        case "changeInstruction":
+            updatedInstructions=[...state.instructions];
+            updatedInstructions[action.payload.index].instruction=action.payload.value;
+            return {...state,instructions : updatedInstructions};
+        case "removeInstruction":
+            updatedInstructions=state.instructions.filter((_,i)=> i !== action.payload);
+            return {...state,instructions : updatedInstructions};
+        case "addInstruction":
+            updatedInstructions=[...state.instructions];
+            updatedInstructions.push({instruction : ""});
+            return {...state,instructions : updatedInstructions};
+
+
+
             
     }
 }

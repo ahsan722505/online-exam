@@ -37,6 +37,7 @@ const GeneralInfo = ({createExamState,dispatchCreateExam,classes}) => {
                             <label>Enter subject name:</label>
                             <input type="text" value={subjectName} onChange={(e)=> dispatchCreateExam({type : "subjectName" , payload : e.target.value })}/>
                     </div>
+        
                     <div className={styles.formControl}>
                             <label>Select class</label>
                             <input ref={inputRef} type="text" value={class_Name} id="unique" onChange={(e)=> dispatchCreateExam({type : "class_Name" , payload : e.target.value })}/>
