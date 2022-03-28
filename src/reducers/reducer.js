@@ -9,7 +9,7 @@ export const createExamReducer=(state,action)=>{
             return {...state,class_Name : action.payload}
         case "addOption":
             updatedQuestions=[...state.questions];
-            updatedQuestions[state.currentQuestion].options.push({statement : ""});
+            updatedQuestions[state.currentQuestion].options.push({statement : "",correct : false});
             return {...state,questions : updatedQuestions}
         case "removeOption":
             updatedQuestions=[...state.questions];
@@ -23,10 +23,14 @@ export const createExamReducer=(state,action)=>{
             updatedQuestions=[...state.questions];
             updatedQuestions[state.currentQuestion].options[action.payload.index].statement=action.payload.value;
             return {...state,questions : updatedQuestions}
+        case "correctOption":
+            updatedQuestions=[...state.questions];
+            updatedQuestions[state.currentQuestion].options=updatedQuestions[state.currentQuestion].options.map((each,i)=> ({...each, correct :  i === action.payload.index ? action.payload.value : false}))
+            return {...state,questions : updatedQuestions}
         case "nextQuestion":
             updatedQuestions=[...state.questions];
             if(state.currentQuestion === state.questions.length-1){
-                updatedQuestions.push({questionStatement : "", options : [{statement : ""}]});
+                updatedQuestions.push({questionStatement : "", options : [{statement : "",correct : false}]});
             }
                 return {...state,questions : updatedQuestions,currentQuestion : state.currentQuestion+1};
 
@@ -48,6 +52,10 @@ export const createExamReducer=(state,action)=>{
             updatedInstructions=[...state.instructions];
             updatedInstructions.push({instruction : ""});
             return {...state,instructions : updatedInstructions};
+        case "changeDateAndTime":
+            return {...state,dateAndTime : action.payload}
+        case "changeDuration":
+            return {...state,duration : action.payload}
 
 
 

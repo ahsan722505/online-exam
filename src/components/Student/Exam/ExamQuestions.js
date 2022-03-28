@@ -4,13 +4,15 @@ import Stat from "./Stat";
 import styles from "./Exam.module.css";
 import Question from "./Question";
 import Button from "../../../UI/Button"
-import { useParams } from "react-router";
 import useHttp from "../../../hooks/use-http";
-const ExamQuestions = () => {
-    const params=useParams();
+import CustomModal from '../../../UI/CustomModal';
+import { useNavigate } from 'react-router';
+const ExamQuestions = ({examId}) => {
+    const navigate= useNavigate();
     const {isLoading,sendRequest}=useHttp(true);
     const [currentQuestionIndex,setCurrentQuestionIndex]=useState(0);
     const [questions,setQuestions]=useState([]);
+    const [showModal,setShowModal]=useState(false);
     const [answers,setAnswers]=useState([]);
     let currentQuestion=questions[currentQuestionIndex];
     const nextHandler=()=> setCurrentQuestionIndex(state=>state+1);
@@ -18,18 +20,21 @@ const ExamQuestions = () => {
     const changeQuestionHandler=(index)=>{
             setCurrentQuestionIndex(index);
     }
-    const setAnswerHandler=(option)=>{
+    const setAnswerHandler=({option,select})=>{
             setAnswers(state=>{
                 let newState=[...state];
-                newState[currentQuestionIndex]=option;
+                if(select) newState[currentQuestionIndex]=option;
+                else newState[currentQuestionIndex]=null;
+                
                 return newState;
             })
     }
+    console.log(answers);
     useEffect(()=>{
         const graphqlQuery = {
             query: `
-            query GetExams($_id : ID){ 
-                getQuestions(examId : $_id) {
+            query GetExamContents($_id : ID,$start : Boolean){ 
+                getExamContents(examId : $_id,start : $start) {
                   questions {
                       questionStatement
                       options {
@@ -40,20 +45,40 @@ const ExamQuestions = () => {
               }
             `
           , variables : {
-              _id : params.examId
+              _id : examId,
+              start : true
           }};
           const dataHandler=(resData)=>{
               if(!resData.errors){
-                  setQuestions(resData.data.getQuestions.questions);
-                  setAnswers(new Array(resData.data.getQuestions.questions.length).fill(null))
+                  setQuestions(resData.data.getExamContents.questions);
+                  setAnswers(new Array(resData.data.getExamContents.questions.length).fill(null))
               }
           }
           sendRequest(graphqlQuery,dataHandler);
+          
     },[sendRequest])
+    const submitExam=()=>{
+        const graphqlQuery = {
+            query: `
+              mutation calculateExamMarks($answers : [Int] , $examId : ID) {
+                calculateMarks(answers: $answers,examId : $examId) {
+                  success
+                }
+              }
+            `,
+            variables: {
+              answers,
+              examId
+            }
+          };
+          sendRequest(graphqlQuery,()=>{},false)
+          navigate("/student")
+    }
     return(
         <>
             { isLoading && <h1>Loading</h1>}
             { !isLoading && <div className={styles.questionLayout}>
+                
                 <div className={styles.upper}>
                     <h2>Time left : 1:00</h2>
                     <Stat answers={answers} questions={questions.length} onChangeQuestion={changeQuestionHandler}/>
@@ -63,6 +88,8 @@ const ExamQuestions = () => {
                     <Button onClick={previousHandler} style={{marginRight : "1rem"}} disabled={currentQuestionIndex === 0}>Previous</Button>
                     <Button onClick={nextHandler} disabled={currentQuestionIndex === questions.length-1}>Next</Button>
                 </div>
+                <Button style={{position : "absolute" , bottom : "1rem"}} onClick={()=> setShowModal(true)}>submit exam</Button>
+                <CustomModal show={showModal} handleClose={()=>setShowModal(false)} content="Are you sure you want to submit exam?" proceedHandler={submitExam} />
 
             </div>}
         </>

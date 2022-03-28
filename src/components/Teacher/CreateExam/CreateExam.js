@@ -19,9 +19,12 @@ const CreateExam=()=>{
     examName : "",
     subjectName : "",
     class_Name : "",
-    questions : [{questionStatement : "", options : [{statement : ""}]}],
+    questions : [{questionStatement : "", options : [{statement : "", correct : false}]}],
+    dateAndTime : "",
+    duration : "",
     instructions : [{instruction : ""}],
     currentQuestion : 0
+
 }
     const [classes,setClasses]=useState([]);
     const {isLoading,sendRequest}=useHttp();
@@ -51,45 +54,77 @@ const CreateExam=()=>{
         dispatchCreateExam({type : "currentQuestion",payload : value})
     }
     const submitHandler=()=>{
+      // alert("sending...")
       let err;
       if(isEmpty(createExamState.examName)){
          err="The exam name field is empty, make sure to fill it";
-        dispatch(uiActions.setModal({show : true, content : err}));
+        dispatch(uiActions.showModal({ content : err}));
         return;
       }
       if(isEmpty(createExamState.subjectName)){
          err="The subject name field is empty, make sure to fill it";
-        dispatch(uiActions.setModal({show : true, content : err}));
+        dispatch(uiActions.showModal({ content : err}));
         return;
       }
       if(!classes.find(each=> each.name === createExamState.class_Name)){
          err="Please select a class from available list of classes";
-        dispatch(uiActions.setModal({show : true, content : err}));
+        dispatch(uiActions.showModal({ content : err}));
         return;
       }
       let questions=createExamState.questions;
       for(let i=0; i< questions.length ; i++){
         if(isEmpty(questions[i].questionStatement)){
           err=`The question statement of question no ${i+1} is missing.`;
-          dispatch(uiActions.setModal({show : true, content : err}));
+          dispatch(uiActions.showModal({ content : err}));
           return;
         }
         if(questions[i].options.length === 0){
           err=`The question no ${i+1} should have atleast one option.`;
-          dispatch(uiActions.setModal({show : true, content : err}));
+          dispatch(uiActions.showModal({ content : err}));
           return;
         }
+        
         for(let j=0 ; j < questions[i].options.length ; j++){
           if(isEmpty(questions[i].options[j].statement)){
             err=`The option no ${j+1} of question no ${i+1} is empty; either fill it or remove it.`;
-            dispatch(uiActions.setModal({show : true, content : err}));
+            dispatch(uiActions.showModal({ content : err}));
             return;
           }
         }
+        if(questions[i].options.every(each=> each.correct === false)){
+          err=`The question no ${i+1} should have one correct option.`
+          dispatch(uiActions.showModal({ content : err}));
+          return;
+        }
       }
-
+        if(isEmpty(createExamState.dateAndTime)){
+          err="Please select a starting time and date for exam.";
+          dispatch(uiActions.showModal({ content : err}));
+          return;
+        }
+        if(isEmpty(createExamState.duration)){
+          err="Please enter a time duration for exam.";
+          dispatch(uiActions.showModal({ content : err}));
+          return;
+        }
+        let instructions=createExamState.instructions;
+        for(let i=0 ; i< instructions.length ; i++){
+          if(isEmpty(instructions[i].instruction)){
+            err=`The instruction no ${i+1} is missing.`;
+            dispatch(uiActions.showModal({ content : err}));
+            return;
+          }
+        }
+        
+      
+      
+      
 
       let readyState={...createExamState};
+      readyState.correctOptions=readyState.questions.map(each=>{
+        return each.options.findIndex(option=> option.correct === true)
+      })
+      readyState.questions=readyState.questions.map(each=>({...each,options : each.options.map(option=> ({statement : option.statement}))}));
       delete readyState.currentQuestion;
       delete readyState.class_Name;
       let {name,_id}=classes.find(each=> each.name === createExamState.class_Name);
@@ -109,11 +144,12 @@ const CreateExam=()=>{
       const dataHandler=(data)=>{
         if(!data.errors){
           navigate("/teacher");
-          dispatch(uiActions.setModal({show :  true, content : "Exam created successfully!"}))
+          dispatch(uiActions.showModal({ content : "Exam created successfully!"}))
         }
         
       }
       sendRequest(graphqlQuery,dataHandler);
+      console.log(readyState);
       
     }
     return(
@@ -127,7 +163,7 @@ const CreateExam=()=>{
                     <div  className={styles.createCont}>
                         {currentStep === 1 && <GeneralInfo createExamState={createExamState} dispatchCreateExam={dispatchCreateExam} classes={classes}/>}
                         { currentStep === 2 && <Question dispatchCreateExam={dispatchCreateExam} question={createExamState.questions[createExamState.currentQuestion]} currentQuestion={createExamState.currentQuestion} changeQuestionHandler={changeQuestionHandler} questionsLength={createExamState.questions.length}/>}
-                        {currentStep === 3 && <Time/>}
+                        {currentStep === 3 && <Time dateAndTime={createExamState.dateAndTime} dispatchCreateExam={dispatchCreateExam} duration={createExamState.duration}/>}
                         {currentStep === 4 && <Instruction instructions={createExamState.instructions} submitHandler={submitHandler} dispatchCreateExam={dispatchCreateExam} />}
 
                     </div>

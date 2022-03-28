@@ -3,9 +3,9 @@ import { useCallback } from 'react';
 import { useState } from 'react'
 const useHttp = (initialLoading=false) => {
     const [isLoading,setLoading]=useState(initialLoading);
-    const sendRequest=useCallback(async(graphqlQuery,applyData)=>{
+    const sendRequest=useCallback(async(graphqlQuery,applyData,loading=true)=>{
         try{
-            setLoading(true);
+            if(loading) setLoading(true);
             const res=await fetch(process.env.REACT_APP_SERVER,{
                 method : "POST",
                 headers : {
@@ -17,11 +17,12 @@ const useHttp = (initialLoading=false) => {
             });
             const resData=await res.json();
             applyData(resData);
-            setLoading(false);
+            if(loading) setLoading(false);
         }catch(err){
             console.log("catching err");
             applyData(err);
-            setLoading(false);
+            if(loading) setLoading(false);
+            
         }
 
     },[]);

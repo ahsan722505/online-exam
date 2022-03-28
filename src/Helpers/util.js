@@ -22,6 +22,7 @@ export const exams=[
     },
 ];
 export const classes=["cs-mor","se-aft","se-mor","cs-aft","bsit","bsait","bsph"]
+export const months=["Jan","Feb","Mar","April","May","June","July","August","Sep","Oct","Nov","Dec"];
 export const isEmpty=(content)=>{
     return content.trim().length === 0;
 }

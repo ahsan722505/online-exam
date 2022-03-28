@@ -5,16 +5,20 @@ const uiSlice=createSlice({
         initialLoading : true,
         modal : {
             show : false,
-            content : ""
+            content : "",
         }
     },
     reducers : {
-        toggleInitialLoading(state,action){
+        toggleInitialLoading(state){
             state.initialLoading= !state.initialLoading;
         },
-        setModal(state,action){
-            state.modal.show=action.payload.show;
+        showModal(state,action){
+            state.modal.show=true;
             state.modal.content=action.payload.content;
+        },
+        closeModal(state){
+            state.modal.show=false;
+            state.modal.content="";
         }
     }
 });

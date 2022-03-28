@@ -9,8 +9,13 @@ import PageNotFound from './components/PageNotFound';
 import Login from './components/Landing/Login';
 import { Route, Routes} from 'react-router-dom';
 import CustomModal from "./UI/CustomModal";
+import { useSelector,useDispatch } from 'react-redux';
+import { uiActions } from './store/ui-slice';
 
 function App() {
+  const {show,content}=useSelector(state=>state.ui.modal);
+  const dispatch=useDispatch();
+    const handleClose=()=> dispatch(uiActions.closeModal())
   return (
     <div className="App">
       <Routes>
@@ -23,7 +28,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="*" element={<PageNotFound/>}/>
       </Routes>
-      <CustomModal/>
+       <CustomModal show={show} content={content} handleClose={handleClose} />
     </div>
   );
 }

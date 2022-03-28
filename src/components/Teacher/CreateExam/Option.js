@@ -8,6 +8,8 @@ const Option = ({option,index,dispatchCreateExam}) => {
                 <span>({String.fromCharCode(97+index)})</span>
                 <TextArea onChange={(e)=> dispatchCreateExam({type : "option" , payload : {index,value : e.target.value}})}>{option.statement}</TextArea>
                 <Button onClick={()=> dispatchCreateExam({type : "removeOption" , payload : index})}>remove</Button>
+                <input type="checkbox" checked={option.correct} onChange={(e)=> dispatchCreateExam({type : "correctOption" ,payload : {index, value : e.target.checked}})}/>
+                <span>correct</span>
             </div>
   )
   
