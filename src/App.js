@@ -4,7 +4,7 @@ import StudentMain from "./components/Student/StudentMain";
 import Exam from "./components/Student/Exam/Exam";
 import TeacherMain from './components/Teacher/TeacherMain';
 import CreateExam from './components/Teacher/CreateExam/CreateExam';
-import ViewResults from './components/Teacher/ViewResults';
+import ViewExams from './components/Teacher/ViewExams';
 import PageNotFound from './components/PageNotFound';
 import Login from './components/Landing/Login';
 import { Route, Routes} from 'react-router-dom';
@@ -24,7 +24,7 @@ function App() {
         <Route path="/student/:examId" element={<Exam/>}/>
         <Route path="/teacher" element={<TeacherMain/>}/>
         <Route path="/teacher/createExam" element={<CreateExam/>}/>
-        <Route path="/teacher/viewResults" element={<ViewResults/>}/>
+        <Route path="/teacher/viewExams" element={<ViewExams/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="*" element={<PageNotFound/>}/>
       </Routes>

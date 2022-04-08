@@ -4,17 +4,18 @@ import Question from "./Question";
 import GeneralInfo from "./GeneralInfo";
 import NavigationArrow from "../../../UI/NavigationArrow";
 import { useReducer,useRef } from "react";
-import Stat from "../../Student/Exam/Stat";
 import useHttp from "../../../hooks/use-http";
 import { createExamReducer } from "../../../reducers/reducer";
-import Button from "../../../UI/Button"
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../../store/ui-slice";
 import { useNavigate } from "react-router";
 import { isEmpty } from "../../../Helpers/util";
 import Time from "./Time";
 import Instruction from "./Instruction";
+import { useSearchParams } from 'react-router-dom';
+import { getGraphqlQuery } from "../../../Helpers/util";
 const CreateExam=()=>{
+  const [searchParams]=useSearchParams();
   const createExamInitialState={
     examName : "",
     subjectName : "",
@@ -31,25 +32,32 @@ const CreateExam=()=>{
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const [currentStep,setCurrentStep]=useState(1);
+    const [createExamState,dispatchCreateExam]=useReducer(createExamReducer,createExamInitialState);
     useEffect(()=>{
         const dataHandler=(resData)=>{
           console.log(resData);
-            setClasses(resData.data.getClasses);
+          if(searchParams.get("id")){
+            const {getExamContents : examState}=resData.data;
+            examState.class_Name=examState.class.name;
+            delete examState.class;
+            examState.questions.forEach((eachQuestion,i)=>{
+              eachQuestion.options.forEach((eachOption,j)=>{
+                if(j=== examState.correctOptions[i]) eachOption.correct=true;
+                else eachOption.correct=false;
+              })
+            })
+            delete examState.correctOptions;
+            examState.currentQuestion=0;
+            console.log(examState);
+            dispatchCreateExam({type : "setInitialState",payload : examState});
+          }
+          setClasses(resData.data.getClasses);
         }
-        const graphqlQuery = {
-            query: `
-              {
-                getClasses {
-                  name
-                  _id
-                }
-              }
-            `
-          };
+        const graphqlQuery=getGraphqlQuery(searchParams.get("id"));
         sendRequest(graphqlQuery,dataHandler);
     },[sendRequest]);
     
-    const [createExamState,dispatchCreateExam]=useReducer(createExamReducer,createExamInitialState);
+    
     const changeQuestionHandler=(value)=>{
         dispatchCreateExam({type : "currentQuestion",payload : value})
     }
@@ -131,20 +139,21 @@ const CreateExam=()=>{
       readyState.class=_id;
       const graphqlQuery = {
         query: `
-          mutation createNewExam($examInputData : ExamInput) {
-            createExam(examInputData: $examInputData) {
+          mutation createNewExam($examInputData : ExamInput, $examId : ID) {
+            createExam(examInputData: $examInputData, examId : $examId) {
               success
             }
           }
         `,
         variables: {
-          examInputData : readyState
+          examInputData : readyState,
+          examId : searchParams.get("id")
         }
       };
       const dataHandler=(data)=>{
         if(!data.errors){
           navigate("/teacher");
-          dispatch(uiActions.showModal({ content : "Exam created successfully!"}))
+          dispatch(uiActions.showModal({ content : `Exam ${searchParams.get("id") ? "edited" : "created"} successfully!`}))
         }
         
       }
@@ -164,7 +173,7 @@ const CreateExam=()=>{
                         {currentStep === 1 && <GeneralInfo createExamState={createExamState} dispatchCreateExam={dispatchCreateExam} classes={classes}/>}
                         { currentStep === 2 && <Question dispatchCreateExam={dispatchCreateExam} question={createExamState.questions[createExamState.currentQuestion]} currentQuestion={createExamState.currentQuestion} changeQuestionHandler={changeQuestionHandler} questionsLength={createExamState.questions.length}/>}
                         {currentStep === 3 && <Time dateAndTime={createExamState.dateAndTime} dispatchCreateExam={dispatchCreateExam} duration={createExamState.duration}/>}
-                        {currentStep === 4 && <Instruction instructions={createExamState.instructions} submitHandler={submitHandler} dispatchCreateExam={dispatchCreateExam} />}
+                        {currentStep === 4 && <Instruction examId={searchParams.get("id")} instructions={createExamState.instructions} submitHandler={submitHandler} dispatchCreateExam={dispatchCreateExam} />}
 
                     </div>
                     <NavigationArrow direction="right" disable={currentStep === 4} onClick={()=> setCurrentStep(state=>state+1)}/>

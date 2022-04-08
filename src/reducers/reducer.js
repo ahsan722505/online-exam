@@ -56,6 +56,8 @@ export const createExamReducer=(state,action)=>{
             return {...state,dateAndTime : action.payload}
         case "changeDuration":
             return {...state,duration : action.payload}
+        case "setInitialState":
+            return {...action.payload}
 
 
 

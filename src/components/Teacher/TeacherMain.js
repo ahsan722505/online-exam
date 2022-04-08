@@ -10,7 +10,7 @@ const TeacherMain=()=>{
                 <div className={styles.main}>
                     <div className={styles.btnGroup}>
                         <Button onClick={()=>{navigate("/teacher/createExam")}}  style={{transform: "translateX(-50%)",marginBottom : "1rem"}}>Create exam</Button>
-                        <Button onClick={()=>{navigate("/teacher/viewResults")}} style={{transform: "translateX(50%)"}} >View results</Button>
+                        <Button onClick={()=>{navigate("/teacher/viewExams")}} style={{transform: "translateX(50%)"}} >View Exams</Button>
                     </div>
                 </div>
         </Fragment>

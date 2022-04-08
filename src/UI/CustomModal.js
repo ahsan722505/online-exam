@@ -1,7 +1,10 @@
 import React from 'react'
-import Modal from 'react-bootstrap/Modal'
+import Dialog from '@mui/material/Dialog';
 import Button from "./Button"
 import ButtonGroup from './ButtonGroup'
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 const CustomModal = ({show,content,handleClose,proceedHandler}) => {
   const buttons= proceedHandler ? <ButtonGroup>
     <Button style={{width : "5rem"}} onClick={()=>{proceedHandler(); handleClose()}}>
@@ -15,14 +18,16 @@ const CustomModal = ({show,content,handleClose,proceedHandler}) => {
 </Button> ;
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
-        <Modal.Header  closeButton>
-        </Modal.Header>
-        <Modal.Body style={{fontWeight : "bold"}}>{content}</Modal.Body>
-        <Modal.Footer>
+    <Dialog open={show} onClose={handleClose}>
+        <DialogContent>
+          <DialogContentText style={{fontWeight : "bold" , color : "black"}} >
+          {content}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
           {buttons}
-        </Modal.Footer>
-      </Modal>
+        </DialogActions>
+      </Dialog>
   )
 }
 export default CustomModal

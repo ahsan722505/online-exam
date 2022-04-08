@@ -1,28 +1,25 @@
-import styles from "./StudentMain.module.css";
-import ExamPreview from "./ExamPreview"
+import { useState,useEffect } from "react";
 import useHttp from "../../hooks/use-http";
-import { useEffect,useState } from "react";
-const StudentMain=()=>{
-    const [exams,setExams]=useState([]);
+import ExamTeacherPreview from "./ExamTeacherPreview";
+import styles from "./ViewExams.module.css";
+const ViewExams=()=>{
+   const [exams,setExams]=useState([]);
     const {sendRequest,isLoading}=useHttp();
     useEffect(()=>{
         const dataHandler=(resData)=>{
             console.log(resData);
             if(!resData.errors){
-                console.log(resData.data.getExams);
-                setExams(resData.data.getExams);
+                console.log(resData.data.getTeacherExams);
+                setExams(resData.data.getTeacherExams);
             }
         }
         const graphqlQuery = {
             query: `
               {
-                getExams {
+                getTeacherExams {
                   _id
                   subjectName
                   examName
-                  teacher{
-                      username
-                  }
                 }
               }
             `
@@ -39,7 +36,7 @@ const StudentMain=()=>{
                 <div className={styles.cont}>
                     {exams.map(each=>{
                         return(
-                            <ExamPreview exam={each}/>
+                            <ExamTeacherPreview exam={each}/>
                         )
                     })}
 
@@ -47,6 +44,6 @@ const StudentMain=()=>{
 
             </>}
         </>
-    )
+    ) 
 }
-export default StudentMain;
+export default ViewExams;

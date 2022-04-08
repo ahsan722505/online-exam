@@ -26,3 +26,57 @@ export const months=["Jan","Feb","Mar","April","May","June","July","August","Sep
 export const isEmpty=(content)=>{
     return content.trim().length === 0;
 }
+export const getGraphqlQuery=(examId)=>{
+    let graphqlQuery;
+    if(examId){
+        graphqlQuery = {
+            query: `
+            query allInOne($_id : ID,$start : Boolean){
+            
+                getClasses {
+                  name
+                  _id
+                }
+            
+                getExamContents(examId : $_id,start : $start) {
+                  examName
+                  subjectName
+                  class {
+                      name
+                  }
+                  questions {
+                      questionStatement
+                      options {
+                          statement
+                      }
+                  }
+                  duration
+                  dateAndTime
+                  instructions {
+                      instruction
+                  }
+                  correctOptions
+                }
+              
+            }
+            
+              
+            `
+          , variables : {
+              _id : examId,
+              start : false
+          }};
+    }else{
+        graphqlQuery = {
+            query: `
+              {
+                getClasses {
+                  name
+                  _id
+                }
+              }
+            `};
+    }
+    return graphqlQuery;
+    
+}
