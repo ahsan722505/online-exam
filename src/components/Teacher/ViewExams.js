@@ -2,7 +2,10 @@ import { useState,useEffect } from "react";
 import useHttp from "../../hooks/use-http";
 import ExamTeacherPreview from "./ExamTeacherPreview";
 import styles from "./ViewExams.module.css";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../store/ui-slice";
 const ViewExams=()=>{
+    const dispatch=useDispatch();
    const [exams,setExams]=useState([]);
     const {sendRequest,isLoading}=useHttp();
     useEffect(()=>{
@@ -27,6 +30,25 @@ const ViewExams=()=>{
         sendRequest(graphqlQuery,dataHandler);
 
     },[])
+    const deleteExamHandler=(id)=>{
+        const graphqlQuery = {
+            query: `
+              mutation deleteExam($examId : ID) {
+                deleteExam(examId : $examId) {
+                  success
+                }
+              }
+            `,
+            variables: {
+              examId : id
+            }
+          };
+          const dataHandler=(resData)=>{
+            setExams(state=> state.filter(each=> each._id !== id));
+            dispatch(uiActions.showModal({content : "Exam deleted successfully."}))
+          }
+          sendRequest(graphqlQuery,dataHandler)
+    }
     return(
         <>
             { isLoading && <h1>Loading...</h1>}
@@ -36,7 +58,7 @@ const ViewExams=()=>{
                 <div className={styles.cont}>
                     {exams.map(each=>{
                         return(
-                            <ExamTeacherPreview exam={each}/>
+                            <ExamTeacherPreview onDeleteExam={deleteExamHandler} exam={each}/>
                         )
                     })}
 
